@@ -17,10 +17,15 @@
 
             <div id="transferencia">
                 <label>Valor: </label>
-                <input type="number" id="valor_transferir" required>
+                <input type="number" id="valor_transferir">
                 <label>Conta: </label>
-                <input type="text" id="conta_transferencia" required>
+                <input type="text" id="conta_transferencia">
                 <input type="submit" class="btn btn-outline-primary" value="Transferir" onclick="transferir()">
+            </div>
+            <div id="receber">
+                <label>Valor:</label>
+                <input type="number" id="valor_deposito">
+                <input type="submit" class="btn btn-outline-primary" value="Depositar" onclick="deposito()">
             </div>
             <div id="extrato" class="alert alert-primary"><ul></ul></div>
         </div>
@@ -31,6 +36,12 @@
             const dia_hoje = hoje.getDate();
             const mes_hoje = hoje.getMonth() + 1;
             const ano_hoje = hoje.getUTCFullYear();
+
+
+            const saldo = document.getElementById("valor_saldo");
+            const valor = document.getElementById("valor_transferir");
+            const conta = document.getElementById("conta_transferencia");
+            const recebento = document.getElementById("valor_deposito");
 
             function receberSaldo()
             {
@@ -43,11 +54,34 @@
                 `;
             }
 
+            function deposito()
+            {
+                valor_deposito =parseFloat(recebento.value);
+                saldo_bancario = parseFloat(saldo.value);
+
+
+                if(valor_deposito > 0)
+                {
+                    novo_saldo = saldo_bancario + valor_deposito;
+
+                    document.getElementById("valor_saldo").value = novo_saldo;
+
+                    document.getElementById("extrato").innerHTML += `
+                    <li>Você recebeu uma transferência de R$${valor_deposito} de Simulador_banc</li>
+                    `;
+
+                    recebento.value = "";
+                }
+                else
+                {
+                    alert("Informe o valor!");
+                    recebento.value = "";
+                }
+            }
+
             function transferir()
             {
-                const saldo = document.getElementById("valor_saldo");
-                const valor = document.getElementById("valor_transferir");
-                const conta = document.getElementById("conta_transferencia");
+                
 
                 valor_transferencia = parseFloat(valor.value);
                 saldo_bancario = parseFloat(saldo.value);
